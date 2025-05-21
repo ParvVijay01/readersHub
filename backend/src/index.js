@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000
 
 //middleware
 job.start()
-app.use(express.json({limit: '100mb'))
+app.use(express.json({limit: '100mb'})
 app.use(cors())
 
 //routes
