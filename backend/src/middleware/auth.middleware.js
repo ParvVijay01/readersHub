@@ -11,7 +11,7 @@ const protectRoute = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         //find user
-        const user = User.findById(decoded.userId).select("-password") //select all fields from decoded user except for password
+        const user = await User.findById(decoded.userId).select("-password") //select all fields from decoded user except for password
 
         if(!user) return res.status(401).json({message: "Token isn ot valid"})
 
