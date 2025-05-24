@@ -44,7 +44,7 @@ router.post("/", protectRoute, async (req, res) => {
 router.get("/", protectRoute, async (req, res) => {
     try {
         const page = req.query.page || 1
-        const limit = req.query.limit || 5
+        const limit = req.query.limit || 1
         const skip = (page - 1) * limit
 
         const books = await Book.find().sort({ createdAt: -1}) // descending order
@@ -58,7 +58,7 @@ router.get("/", protectRoute, async (req, res) => {
             books, 
             currentPage: page, 
             totalBooks: totalBooks,
-            totlaPages: Math.ceil(totalBooks / limit)
+            totalPages: Math.ceil(totalBooks / limit)
         })
 
     } catch (error) {
