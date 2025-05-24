@@ -58,7 +58,7 @@ router.get("/", protectRoute, async (req, res) => {
             books, 
             currentPage: page, 
             totalBooks: totalBooks,
-            totlaPages: Math.ceil(totalBooks / limit)
+            totalPages: Math.ceil(totalBooks / limit)
         })
 
     } catch (error) {
