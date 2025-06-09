@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuthStore } from '../../store/authStore';
 import styles from "../../assets/styles/home.styles"
@@ -8,6 +8,8 @@ import { Ionicons } from "@expo/vector-icons"
 import COLORS from "../../constants/colors"
 import { formatPublishDate } from '../../lib/utils';
 import Loader from '../../components/Loader';
+
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Home() {
   const { token, user } = useAuthStore();
@@ -45,7 +47,9 @@ export default function Home() {
       console.log("Error fetching books");
 
     } finally {
-      if (refresh) setRefreshing(false)
+      if (refresh) {
+        await sleep(800)
+        setRefreshing(false)}
       else setLoading(false)
     }
   }
@@ -112,6 +116,14 @@ export default function Home() {
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+          refreshing = {refreshing}
+          onRefresh={() => fetchBooks(1, true)}
+          colors={[COLORS.primary]}
+          tintColor={COLORS.primary}
+          />
+        }
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.headerTitle}>ReadersHub📚</Text>

@@ -17,7 +17,7 @@ import { Link } from "expo-router"
 import { useAuthStore } from "../../store/authStore"
 
 export default function Login() {
-  const { user, isLoading, login } = useAuthStore()
+  const { user, isLoading, login, isCheckingAuth } = useAuthStore()
 
   
 
@@ -30,6 +30,8 @@ export default function Login() {
     const result = await login(email, password)
     if(!result.success) Alert.alert("Error", result.error)
   };
+
+  if(isCheckingAuth) return null
 
   return (
     <KeyboardAvoidingView 
